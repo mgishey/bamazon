@@ -1,6 +1,9 @@
 var inquirer = require("inquirer");
 var mysql = require("mysql");
 
+var buyerQuantity;
+var itemId;
+
 // First thing you do is connect to the database and then you
 // start with a function to main program.
 // Create the connection information for the sql database
@@ -45,20 +48,51 @@ function placeOrder() {
             },
             {
                 name: "buyQuantity",
-                message: "How many units do you wish to buy"
+                message: "How many units do you wish to buy?"
             }
         ])
         .then(ans => {
             console.log("Item selected " + ans.itemID);
+            itemId = ans.itemID;
             console.log("Quantity: " + ans.buyQuantity);
-            db.query("SELECT stock_quantity, product_name FROM products WHERE item_id = ?", ans.itemID, function(err, inStock){
+            db.query("SELECT stock_quantity, product_name FROM products WHERE item_id = ?", ans.itemID, function (err, inStock) {
                 if (err) throw err;
                 console.table(inStock);
-                console.log(inStock[0].stock_quantity + " " + inStock[0].product_name + "s" + "in stock.");
-                db.end();
-            })
+                //console.log(inStock[0].stock_quantity + " " + inStock[0].product_name + "s " + "in stock.");
+                if (ans.buyQuantity > inStock[0].stock_quantity) {
+                    console.log("Sorry, we only have " + inStock[0].stock_quantity + " " + inStock[0].product_name + "s " + "in stock.");
+                    db.end();
+                } else {
+                    var newQuantity = inStock[0].stock_quantity - ans.buyQuantity;
+                    buyerQuantity = ans.buyQuantity;
+                    var sql = "UPDATE products SET stock_quantity = " + newQuantity + " where item_id = " + ans.itemID;
+                    db.query(sql, function (err) {
+                        if (err) throw err;
+                        console.log("Update successful!")
+                        console.log("Quantity: " + buyerQuantity);
+                        //buyerPrice = buyerQuantity * res.price;
+                        //console.log(buyerPrice);
+                        checkOut(buyerQuantity, itemId);
+                        //db.end();
+                    });
+                }
+            });
         });
 }
+
+function checkOut(q, i){
+    console.log(q + " and " + i);
+    sql2 = "SELECT price FROM products WHERE item_id = " + i;
+    db.query(sql2, function(err,resp){
+        if (err) throw err;
+        totalPrice = q * resp[0].price;
+        console.log("Your grand total comes to: " + totalPrice);
+        db.end();
+    });
+    
+    
+}
+
 
 
 
