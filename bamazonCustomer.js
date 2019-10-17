@@ -26,12 +26,12 @@ db.connect(function (err) {
 });
 
 function start(){
-    db.query("SELECT * FROM bamazon_db", function(err, res){
+    db.query("SELECT * FROM products", function(err, res){
         if (err) throw err;
         console.table(res);
     });
+    db.end();
 }
 
 
 
-db.end();
