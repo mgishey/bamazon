@@ -25,8 +25,10 @@ db.connect(function (err) {
     start();
 });
 
+// Display items available for sale
+
 function start() {
-    db.query("SELECT * FROM products", function (err, res) {
+    db.query("SELECT item_id, product_name, price FROM products", function (err, res) {
         if (err) throw err;
         console.log("Motorcycles and Gear For Sale:")
         console.table(res);
@@ -34,16 +36,23 @@ function start() {
     });
 }
 
-function placeOrder(){
+function placeOrder() {
     inquirer
-    .prompt({
-        name: "itemID",
-        message: "Please provide the ID# of the product to buy:"
-    })
-    .then(ans => {
-        console.log("Item selected " + ans.itemID);
-        db.end();
-    });
+        .prompt([
+            {
+                name: "itemID",
+                message: "Please provide the ID# of the product to buy:"
+            },
+            {
+                name: "buyQuantity",
+                message: "How many units do you wish to buy"
+            }
+        ])
+        .then(ans => {
+            console.log("Item selected " + ans.itemID);
+            console.log("Quantity: " + ans.buyQuantity);
+            db.end();
+        });
 }
 
 
