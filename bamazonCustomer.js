@@ -51,9 +51,15 @@ function placeOrder() {
         .then(ans => {
             console.log("Item selected " + ans.itemID);
             console.log("Quantity: " + ans.buyQuantity);
-            db.end();
+            db.query("SELECT stock_quantity, product_name FROM products WHERE item_id = ?", ans.itemID, function(err, inStock){
+                if (err) throw err;
+                console.table(inStock);
+                console.log(inStock[0].stock_quantity + " " + inStock[0].product_name + "s" + "in stock.");
+                db.end();
+            })
         });
 }
+
 
 
 
