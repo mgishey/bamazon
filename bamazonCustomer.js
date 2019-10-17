@@ -5,32 +5,45 @@ var mysql = require("mysql");
 // start with a function to main program.
 // Create the connection information for the sql database
 var db = mysql.createConnection({
-  host: "localhost",
+    host: "localhost",
 
-  // Your port; if not 3306
-  port: 3306,
+    // Your port; if not 3306
+    port: 3306,
 
-  // Your username
-  user: "root",
+    // Your username
+    user: "root",
 
-  // Your password
-  password: "root",
-  database: "bamazon_db"
+    // Your password
+    password: "root",
+    database: "bamazon_db"
 });
 
 // connect to the mysql server and sql database
 db.connect(function (err) {
-  if (err) throw err;
-  // run the start function after the connection is made to prompt the user
-  start();
+    if (err) throw err;
+    // run the start function after the connection is made to prompt the user
+    start();
 });
 
-function start(){
-    db.query("SELECT * FROM products", function(err, res){
+function start() {
+    db.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
+        console.log("Motorcycles and Gear For Sale:")
         console.table(res);
+        placeOrder();
     });
-    db.end();
+}
+
+function placeOrder(){
+    inquirer
+    .prompt({
+        name: "itemID",
+        message: "Please provide the ID# of the product to buy:"
+    })
+    .then(ans => {
+        console.log("Item selected " + ans.itemID);
+        db.end();
+    });
 }
 
 
