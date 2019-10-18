@@ -79,10 +79,11 @@ function placeOrder() {
 }
 
 function checkOut(q, i){
-    sql2 = "SELECT price FROM products WHERE item_id = " + i;
+    sql2 = "SELECT price, product_name FROM products WHERE item_id = " + i;
     db.query(sql2, function(err,resp){
         if (err) throw err;
         totalPrice = q * resp[0].price;
+        console.log("You have purchased " + buyerQuantity + " " + resp[0].product_name + "s");
         console.log("Your grand total comes to: $" + totalPrice + "\n");
         summaryTable(i);
     });   
