@@ -52,11 +52,10 @@ function placeOrder() {
             }
         ])
         .then(ans => {
-            console.log("Item selected " + ans.itemID);
             itemId = ans.itemID;
-            console.log("Quantity: " + ans.buyQuantity);
             db.query("SELECT stock_quantity, product_name FROM products WHERE item_id = ?", ans.itemID, function (err, inStock) {
                 if (err) throw err;
+                console.log("In Stock table:")
                 console.table(inStock);
                 //console.log(inStock[0].stock_quantity + " " + inStock[0].product_name + "s " + "in stock.");
                 if (ans.buyQuantity > inStock[0].stock_quantity) {
@@ -68,8 +67,7 @@ function placeOrder() {
                     var sql = "UPDATE products SET stock_quantity = " + newQuantity + " where item_id = " + ans.itemID;
                     db.query(sql, function (err) {
                         if (err) throw err;
-                        console.log("Update successful!")
-                        console.log("Quantity: " + buyerQuantity);
+                        console.log("Update successful!" + "\n");
                         //buyerPrice = buyerQuantity * res.price;
                         //console.log(buyerPrice);
                         checkOut(buyerQuantity, itemId);
@@ -81,18 +79,24 @@ function placeOrder() {
 }
 
 function checkOut(q, i){
-    console.log(q + " and " + i);
     sql2 = "SELECT price FROM products WHERE item_id = " + i;
     db.query(sql2, function(err,resp){
         if (err) throw err;
         totalPrice = q * resp[0].price;
-        console.log("Your grand total comes to: " + totalPrice);
-        db.end();
-    });
-    
-    
+        console.log("Your grand total comes to: $" + totalPrice + "\n");
+        summaryTable(i);
+    });   
 }
 
+function summaryTable(i){
+    sql = "SELECT stock_quantity, product_name FROM products where item_id = " + i;
+    db.query(sql, function(err, response){
+        if (err) throw err;
+        console.log("Updated In Stock table:");
+        console.table(response);
+        db.end();
+    });
+}
 
 
 
