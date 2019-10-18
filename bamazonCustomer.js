@@ -3,9 +3,7 @@ var mysql = require("mysql");
 
 var buyerQuantity;
 var itemId;
-
-// First thing you do is connect to the database and then you
-// start with a function to main program.
+.
 // Create the connection information for the sql database
 var db = mysql.createConnection({
     host: "localhost",
@@ -24,7 +22,6 @@ var db = mysql.createConnection({
 // connect to the mysql server and sql database
 db.connect(function (err) {
     if (err) throw err;
-    // run the start function after the connection is made to prompt the user
     start();
 });
 
@@ -57,7 +54,6 @@ function placeOrder() {
                 if (err) throw err;
                 console.log("In Stock table:")
                 console.table(inStock);
-                //console.log(inStock[0].stock_quantity + " " + inStock[0].product_name + "s " + "in stock.");
                 if (ans.buyQuantity > inStock[0].stock_quantity) {
                     console.log("Sorry, we only have " + inStock[0].stock_quantity + " " + inStock[0].product_name + "s " + "in stock.");
                     db.end();
@@ -67,11 +63,8 @@ function placeOrder() {
                     var sql = "UPDATE products SET stock_quantity = " + newQuantity + " where item_id = " + ans.itemID;
                     db.query(sql, function (err) {
                         if (err) throw err;
-                        console.log("Update successful!" + "\n");
-                        //buyerPrice = buyerQuantity * res.price;
-                        //console.log(buyerPrice);
+                        //console.log("Update successful!" + "\n");
                         checkOut(buyerQuantity, itemId);
-                        //db.end();
                     });
                 }
             });
@@ -93,7 +86,7 @@ function summaryTable(i){
     sql = "SELECT stock_quantity, product_name FROM products where item_id = " + i;
     db.query(sql, function(err, response){
         if (err) throw err;
-        console.log("Updated In Stock table:");
+        console.log("Updated Stock table:");
         console.table(response);
         db.end();
     });
