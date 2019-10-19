@@ -23,11 +23,12 @@ Another CLI app that lets a manager of the store:
 ## Step by Step Instructions
 1. Open a terminal.
 2. Type the command `node bamazonManager.js`.
+
     **Example 1:** In this example the manager selects the menu option `View Products For Sale` and is presented with the items in the products table.
 
     **Example 2:** After displaying the products, the manager uses the `View Low Inventory` menu option and is presenting with a listing of all products with under 5 units in stock
 
-    ![bam-mgr-1](/images/bam-mgr-2.png)
+    ![bam-mgr-1](/images/bam-mgr-1.png)
 
     **Example 3:** 
 
