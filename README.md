@@ -26,15 +26,15 @@ Another CLI app that lets a manager of the store:
 
     **Example 1:** In this example the manager selects the menu option `View Products For Sale` and is presented with the items in the products table.
 
-    **Example 2:** After displaying the products, the manager uses the `View Low Inventory` menu option and is presenting with a listing of all products with under 5 units in stock
+    **Example 2:** After displaying the products, the manager uses the `View Low Inventory` menu option and is presented with a listing of all products with under 5 units in stock
 
     ![bam-mgr-1](/images/bam-mgr-1.png)
 
-    **Example 3:** 
+    **Example 3:** Here the manager would like to add 3 pairs of Bilt Commando Boots to the inventory by using the `Add to Inventory` menu option.  After execution it can be seen to have increased to 5 total units.
 
     ![bam-mgr-2](/images/bam-mgr-2.png)
 
-    **Example 4:**
+    **Example 4:** Here the manager would like to add a whole new product to his inventory by using the `Add New Product` menu option.  It can then be seen to have been added to the inventory.
 
     ![bam-mgr-3](/images/bam-mgr-3.png)
 
